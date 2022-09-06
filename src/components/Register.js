@@ -2,15 +2,19 @@ import styled from "styled-components";
 import { useState } from "react";
 import { MdError } from "react-icons/md";
 import { BsEyeSlash, BsEye } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 import Logo from "../common/Logo";
 import FormsStyle from "../common/FormsStyle";
 import Button from "../common/Button";
+import StyledLink from "../common/StyledLink";
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [warningMessage, setWarningMessage] = useState("");
   const [isShown, setIsShown] = useState(false);
-  const [waiting, isWaiting] = useState(false);
+  const [waiting, setWaiting] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
   const [inputData, setInputData] = useState({
     name: "",
@@ -19,12 +23,8 @@ export default function Register() {
   });
 
   function checkPassword(e) {
-    console.log(e.target.value);
     const confirmPassword = e.target.value;
-    if (
-      inputData.password.length != 0 &&
-      confirmPassword !== inputData.password
-    ) {
+    if (confirmPassword != 0 && confirmPassword !== inputData.password) {
       setWarningMessage("As senhas não coincidem");
     } else {
       setWarningMessage("");
@@ -37,17 +37,33 @@ export default function Register() {
     }
   }
 
+  function handleForm(e) {
+    setInputData({ ...inputData, [e.target.name]: e.target.value });
+  }
+
+  function sendRegister(e) {
+    e.preventDefault();
+    setIsDisable(true);
+    setWaiting(true);
+    navigate("/");
+    /*
+    MANDAR PARA API
+   */
+  }
+
   return (
     <>
       <Wrapper>
         <Logo />
-        <FormsStyle isDisable={isDisable}>
+        <FormsStyle isDisable={isDisable} onSubmit={sendRegister}>
           <input
             required
             type="text"
             name="name"
             placeholder="Nome"
             disabled={isDisable}
+            onChange={handleForm}
+            value={inputData.name}
           />
           <input
             required
@@ -55,6 +71,8 @@ export default function Register() {
             name="email"
             placeholder="E-mail"
             disabled={isDisable}
+            onChange={handleForm}
+            value={inputData.email}
           />
           <input
             required
@@ -62,6 +80,8 @@ export default function Register() {
             name="password"
             placeholder="Senha"
             disabled={isDisable}
+            onChange={handleForm}
+            value={inputData.password}
           />
           <EyeIcon>
             {isShown ? (
@@ -87,13 +107,16 @@ export default function Register() {
           )}
 
           <Button
+            type="submit"
             isDisable={isDisable}
             disabled={warningMessage !== "" ? "true" : ""}
             waiting={waiting}
+            setWaiting={setWaiting}
           >
             Cadastrar
           </Button>
         </FormsStyle>
+        <StyledLink to="/">Já tem uma conta? Entre agora!</StyledLink>
       </Wrapper>
     </>
   );

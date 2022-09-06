@@ -5,6 +5,7 @@ const FormsStyle = styled.form`
   flex-direction: column;
   width: 80%;
   position: relative;
+  max-width: 1000px;
 
   input {
     height: 58px;

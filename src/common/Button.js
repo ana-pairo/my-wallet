@@ -2,21 +2,43 @@ import styled from "styled-components";
 import { ThreeDots } from "react-loader-spinner";
 
 export default function Button({ children, isDisable, disabled, waiting }) {
-  return (
-    <ButtonWrapper waiting={waiting} disabled={disabled} isDisable={isDisable}>
-      {waiting && isDisable ? (
-        <ThreeDots
-          height="20"
-          width="80"
-          radius="9"
-          color="white"
-          ariaLabel="three-dots-loading"
-        />
-      ) : (
-        children
-      )}
-    </ButtonWrapper>
-  );
+  if (waiting === undefined) {
+    return (
+      <ButtonWrapper disabled={disabled} isDisable={isDisable}>
+        {isDisable ? (
+          <ThreeDots
+            height="20"
+            width="80"
+            radius="9"
+            color="white"
+            ariaLabel="three-dots-loading"
+          />
+        ) : (
+          children
+        )}
+      </ButtonWrapper>
+    );
+  } else {
+    return (
+      <ButtonWrapper
+        waiting={waiting}
+        disabled={disabled}
+        isDisable={isDisable}
+      >
+        {waiting && isDisable ? (
+          <ThreeDots
+            height="20"
+            width="80"
+            radius="9"
+            color="white"
+            ariaLabel="three-dots-loading"
+          />
+        ) : (
+          children
+        )}
+      </ButtonWrapper>
+    );
+  }
 }
 
 const ButtonWrapper = styled.button`
@@ -27,7 +49,7 @@ const ButtonWrapper = styled.button`
   opacity: ${(props) => (props.isDisable ? 0.7 : 1)};
   border-radius: 5px;
   height: 46px;
-  font-size: 20px;
+  font-size: 25px;
   line-height: 23px;
   font-weight: 700;
   color: #ffffff;
