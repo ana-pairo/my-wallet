@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsEyeSlash, BsEye } from "react-icons/bs";
-import styled from "styled-components";
 import { useState } from "react";
+import styled from "styled-components";
 
+import { postLogIn } from "../services/MyWalletAPI";
 import FormsStyle from "../common/FormsStyle";
 import Logo from "../common/Logo";
 import TokenContext from "../contexts/TokenContext";
@@ -33,12 +34,27 @@ export default function Login() {
     setInputData({ ...inputData, [e.target.name]: e.target.value });
   }
 
-  function sendLogin(e) {
+  async function sendLogin(e) {
     e.preventDefault();
     setIsDisable(true);
-    /*
-    MANDAR PARA API
-   */
+
+    try {
+      const response = await postLogIn(inputData);
+
+      setToken(response.data);
+      console.log(response.data);
+
+      setUser({
+        ...user,
+        name: response.data.name,
+        id: response.data._id,
+      });
+      navigate("/home");
+    } catch (error) {
+      setIsDisable(false);
+      console.log(error);
+      alert(error.response.data);
+    }
   }
 
   return (
@@ -72,7 +88,7 @@ export default function Login() {
             )}
           </EyeIcon>
           <Button type="submit" isDisable={isDisable}>
-            Cadastrar
+            Entrar
           </Button>
         </FormsStyle>
         <StyledLink to="/sign-up">Primeira vez? Cadastre-se!</StyledLink>

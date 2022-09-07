@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import styled from "styled-components";
 
 import GlobalStyle from "../common/GlobalStyles";
 import UserContext from "../contexts/UserContext";
 import TokenContext from "../contexts/TokenContext";
 import Register from "./Register";
 import Login from "./Login";
+import Home from "./Home";
 
 export default function App() {
   const [token, setToken] = useState("");
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    name: "",
+    id: "",
+  });
 
   return (
     <>
@@ -27,6 +30,14 @@ export default function App() {
               }
             />
             <Route path="/sign-up" element={<Register />} />
+            <Route
+              path="/home"
+              element={
+                <TokenContext.Provider value={{ token }}>
+                  <Home />
+                </TokenContext.Provider>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>
