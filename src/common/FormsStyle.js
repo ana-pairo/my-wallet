@@ -3,9 +3,9 @@ import styled from "styled-components";
 const FormsStyle = styled.form`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 85%;
   position: relative;
-  max-width: 1000px;
+  max-width: 600px;
 
   input {
     height: 58px;

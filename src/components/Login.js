@@ -8,7 +8,6 @@ import { postLogIn } from "../services/MyWalletAPI";
 import FormsStyle from "../common/FormsStyle";
 import Logo from "../common/Logo";
 import TokenContext from "../contexts/TokenContext";
-import UserContext from "../contexts/UserContext";
 import Button from "../common/Button";
 import StyledLink from "../common/StyledLink";
 
@@ -21,7 +20,6 @@ export default function Login() {
     password: "",
   });
 
-  const { user, setUser } = useContext(UserContext);
   const { setToken } = useContext(TokenContext);
 
   function showPassword() {
@@ -42,17 +40,10 @@ export default function Login() {
       const response = await postLogIn(inputData);
 
       setToken(response.data);
-      console.log(response.data);
 
-      setUser({
-        ...user,
-        name: response.data.name,
-        id: response.data._id,
-      });
       navigate("/home");
     } catch (error) {
       setIsDisable(false);
-      console.log(error);
       alert(error.response.data);
     }
   }

@@ -14,4 +14,26 @@ function postLogIn(body) {
   return promise;
 }
 
-export { postClient, postLogIn };
+function getUserData(token) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const promise = axios.get(`${BASE_URL}/my-wallet`, config);
+  return promise;
+}
+
+function deleteSession(token) {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const promise = axios.delete(`${BASE_URL}/sessions`, config);
+  return promise;
+}
+
+export { postClient, postLogIn, getUserData, deleteSession };

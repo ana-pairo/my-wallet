@@ -10,10 +10,7 @@ import Home from "./Home";
 
 export default function App() {
   const [token, setToken] = useState("");
-  const [user, setUser] = useState({
-    name: "",
-    id: "",
-  });
+  const [user, setUser] = useState("");
 
   return (
     <>
