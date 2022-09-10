@@ -4,7 +4,7 @@ import { BsEyeSlash, BsEye } from "react-icons/bs";
 import { VscClose, VscCheck } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 
-import { postClient } from "../services/MyWalletAPI";
+import { createClient } from "../services/MyWalletAPI";
 import Logo from "../common/Logo";
 import FormsStyle from "../common/FormsStyle";
 import Button from "../common/Button";
@@ -67,7 +67,7 @@ export default function Register() {
       setWaiting(true);
 
       try {
-        await postClient(inputData);
+        await createClient(inputData);
         navigate("/");
       } catch (error) {
         setIsDisable(false);

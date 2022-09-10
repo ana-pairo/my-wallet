@@ -1,24 +1,27 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ThreeCircles } from "react-loader-spinner";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
 
 import styled from "styled-components";
-import dayjs from "dayjs";
 
-import { getUserData, deleteSession } from "../services/MyWalletAPI";
+import {
+  getUserData,
+  deleteSession,
+  getClientStatments,
+} from "../services/MyWalletAPI";
 import TokenContext from "../contexts/TokenContext";
 import UserContext from "../contexts/UserContext";
 import Header from "../common/Header";
 
 export default function Home() {
+  let balance = 0;
   const { token } = useContext(TokenContext);
   const { user, setUser } = useContext(UserContext);
+  const [bankStatements, setBankStatements] = useState([]);
 
   const navigate = useNavigate();
-
-  const teste = true;
 
   useEffect(() => {
     if (!token) {
@@ -30,6 +33,13 @@ export default function Home() {
           setUser(res.data);
         })
         .catch((err) => console.log(err));
+
+      getClientStatments(token)
+        .then((response) => {
+          setBankStatements(response.data);
+          console.log(bankStatements);
+        })
+        .catch((error) => console.log(error));
     }
   }, []);
 
@@ -67,31 +77,38 @@ export default function Home() {
             <RiLogoutBoxRLine size="30px" onClick={logOut} />
           </Header>
           <Records>
-            {teste ? (
+            {bankStatements.length !== 0 ? (
               <>
                 <Statements>
-                  <Statment>
-                    <Date>31/07</Date>
-                    <Description>
-                      Picole na praia da bhia na ferias de meio do ano
-                    </Description>
-                    <Price>31,80</Price>
-                  </Statment>
-                  <Statment>
-                    <Date>02/08</Date>
-                    <Description>Churrasco na lage</Description>
-                    <Price>100,00</Price>
-                  </Statment>
+                  {bankStatements.map((statement, index) => {
+                    if (statement.type === "deposit") {
+                      balance += parseFloat(statement.amount);
+                      console.log(balance);
+                    } else {
+                      balance -= parseFloat(statement.amount);
+                      console.log(balance);
+                    }
+
+                    return (
+                      <Statment key={index}>
+                        <Date>{statement.date}</Date>
+                        <Description>{statement.description}</Description>
+                        <Price type={statement.type}>
+                          {statement.amount.replace(".", ",")}
+                        </Price>
+                      </Statment>
+                    );
+                  })}
                 </Statements>
                 <Balance>
-                  SALDO <div>2548,45</div>
+                  SALDO
+                  <Amount balance={balance}>
+                    {balance.toFixed(2).replace(".", ",")}
+                  </Amount>
                 </Balance>
               </>
             ) : (
-              <Message>
-                Statement with Withdrawals and deposits Não há registros de
-                entrada ou saída
-              </Message>
+              <Message>Não há registros de entrada ou saída</Message>
             )}
           </Records>
           <Buttons>
@@ -105,8 +122,20 @@ export default function Home() {
               size="25px"
               style={{ position: "absolute", top: "6%", left: "55%" }}
             />
-            <button>Nova entrada</button>
-            <button>Nova saida</button>
+            <button
+              onClick={() => {
+                navigate("/add/deposit");
+              }}
+            >
+              Nova entrada
+            </button>
+            <button
+              onClick={() => {
+                navigate("/add/withdrawal");
+              }}
+            >
+              Nova saida
+            </button>
           </Buttons>
         </>
       )}
@@ -140,7 +169,6 @@ const Records = styled.div`
   color: #868686;
   border-radius: 5px;
   margin-bottom: 13px;
-  /* font-family: "Raleway", sans-serif; */
 `;
 
 const Message = styled.div`
@@ -165,7 +193,7 @@ const Statment = styled.div`
 `;
 
 const Date = styled.div`
-  width: 18%;
+  width: 17%;
   height: 100%;
   justify-content: center;
   align-items: center;
@@ -176,22 +204,25 @@ const Date = styled.div`
 `;
 
 const Description = styled.div`
-  width: 62%;
+  width: 55%;
   font-size: 16px;
   line-height: 19px;
   text-align: left;
   color: #000000;
-  resize: vertical;
+  overflow-x: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const Price = styled.div`
   justify-content: center;
   align-items: center;
-  width: 20%;
+  width: 28%;
   font-size: 16px;
   line-height: 19px;
   text-align: right;
-  color: #c70000;
+  color: ${(props) => (props.type === "withdrawal" ? "#c70000" : "#03AC00")};
 `;
 
 const Balance = styled.div`
@@ -204,14 +235,23 @@ const Balance = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+`;
 
-  div {
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 20px;
-    text-align: right;
-    color: #03ac00;
-  }
+const Amount = styled.div`
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+  text-align: right;
+  color: ${(props) => {
+    if (props.balance !== 0) {
+      if (props.balance < 0) {
+        return "red";
+      }
+      return "green";
+    } else {
+      return "black";
+    }
+  }};
 `;
 
 const Buttons = styled.div`

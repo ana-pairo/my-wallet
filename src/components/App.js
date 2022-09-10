@@ -7,6 +7,7 @@ import TokenContext from "../contexts/TokenContext";
 import Register from "./Register";
 import Login from "./Login";
 import Home from "./Home";
+import AddRecord from "./AddRecord";
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -23,6 +24,22 @@ export default function App() {
               element={
                 <TokenContext.Provider value={{ setToken }}>
                   <Login />
+                </TokenContext.Provider>
+              }
+            />
+            <Route
+              path="/add/deposit"
+              element={
+                <TokenContext.Provider value={{ setToken }}>
+                  <AddRecord type="deposit" />
+                </TokenContext.Provider>
+              }
+            />
+            <Route
+              path="/add/withdrawal"
+              element={
+                <TokenContext.Provider value={{ setToken }}>
+                  <AddRecord type="withdrawal" />
                 </TokenContext.Provider>
               }
             />

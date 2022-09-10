@@ -4,7 +4,7 @@ import { BsEyeSlash, BsEye } from "react-icons/bs";
 import { useState } from "react";
 import styled from "styled-components";
 
-import { postLogIn } from "../services/MyWalletAPI";
+import { openClientSession } from "../services/MyWalletAPI";
 import FormsStyle from "../common/FormsStyle";
 import Logo from "../common/Logo";
 import TokenContext from "../contexts/TokenContext";
@@ -20,7 +20,7 @@ export default function Login() {
     password: "",
   });
 
-  const { setToken } = useContext(TokenContext);
+  const { token, setToken } = useContext(TokenContext);
 
   function showPassword() {
     {
@@ -37,7 +37,7 @@ export default function Login() {
     setIsDisable(true);
 
     try {
-      const response = await postLogIn(inputData);
+      const response = await openClientSession(inputData);
 
       setToken(response.data);
 
