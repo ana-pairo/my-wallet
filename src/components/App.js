@@ -30,7 +30,7 @@ export default function App() {
             <Route
               path="/add/deposit"
               element={
-                <TokenContext.Provider value={{ setToken }}>
+                <TokenContext.Provider value={{ token }}>
                   <AddRecord type="deposit" />
                 </TokenContext.Provider>
               }
@@ -38,7 +38,7 @@ export default function App() {
             <Route
               path="/add/withdrawal"
               element={
-                <TokenContext.Provider value={{ setToken }}>
+                <TokenContext.Provider value={{ token }}>
                   <AddRecord type="withdrawal" />
                 </TokenContext.Provider>
               }

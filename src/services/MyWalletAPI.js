@@ -36,14 +36,14 @@ function deleteSession(token) {
   return promise;
 }
 
-function insertNewTransaction(token) {
+function insertNewTransaction({ inputData, token }) {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  const promise = axios.post(`${BASE_URL}/wallet`, config);
+  const promise = axios.post(`${BASE_URL}/wallet`, inputData, config);
   return promise;
 }
 
