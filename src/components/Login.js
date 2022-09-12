@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsEyeSlash, BsEye } from "react-icons/bs";
 import { useState } from "react";
@@ -7,7 +6,6 @@ import styled from "styled-components";
 import { openClientSession } from "../services/MyWalletAPI";
 import FormsStyle from "../common/FormsStyle";
 import Logo from "../common/Logo";
-import TokenContext from "../contexts/TokenContext";
 import Button from "../common/Button";
 import StyledLink from "../common/StyledLink";
 
@@ -19,8 +17,6 @@ export default function Login() {
     email: "",
     password: "",
   });
-
-  const { token, setToken } = useContext(TokenContext);
 
   function showPassword() {
     {
@@ -40,8 +36,6 @@ export default function Login() {
       const response = await openClientSession(inputData);
 
       localStorage.setItem("UserToken", JSON.stringify(response.data));
-      const userToken = JSON.parse(localStorage.getItem("UserToken"));
-      setToken(userToken);
       navigate("/home");
     } catch (error) {
       setIsDisable(false);

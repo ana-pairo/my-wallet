@@ -39,7 +39,7 @@ export default function AddRecord({ type }) {
     },
   };
 
-  function handleAmount(e, value, maskedValue) {
+  function handleAmount(e, value) {
     e.preventDefault();
     setInputData({ ...inputData, amount: value.toFixed(2) });
   }
