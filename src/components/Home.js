@@ -11,33 +11,30 @@ import {
   deleteSession,
   getClientStatments,
 } from "../services/MyWalletAPI";
-import TokenContext from "../contexts/TokenContext";
 import UserContext from "../contexts/UserContext";
 import Header from "../common/Header";
 
 export default function Home() {
   let balance = 0;
-  const { token } = useContext(TokenContext);
   const { user, setUser } = useContext(UserContext);
   const [bankStatements, setBankStatements] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token) {
+    if (localStorage.getItem("UserToken") === null) {
       alert("Sessão expirada, por favor faça login novamente");
       navigate("/");
     } else {
-      getUserData(token)
+      getUserData(JSON.parse(localStorage.getItem("UserToken")))
         .then((res) => {
           setUser(res.data);
         })
         .catch((err) => console.log(err));
 
-      getClientStatments(token)
+      getClientStatments(JSON.parse(localStorage.getItem("UserToken")))
         .then((response) => {
           setBankStatements(response.data);
-          console.log(bankStatements);
         })
         .catch((error) => console.log(error));
     }
@@ -46,7 +43,11 @@ export default function Home() {
   async function logOut() {
     if (window.confirm("Deseja realmente encerrar sua sessão?")) {
       try {
-        const response = await deleteSession(token);
+        const response = await deleteSession(
+          JSON.parse(localStorage.getItem("UserToken"))
+        );
+
+        localStorage.removeItem("UserToken");
 
         navigate("/");
       } catch (error) {
@@ -83,10 +84,8 @@ export default function Home() {
                   {bankStatements.map((statement, index) => {
                     if (statement.type === "deposit") {
                       balance += parseFloat(statement.amount);
-                      console.log(balance);
                     } else {
                       balance -= parseFloat(statement.amount);
-                      console.log(balance);
                     }
 
                     return (

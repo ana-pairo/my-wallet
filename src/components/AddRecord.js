@@ -1,18 +1,16 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import styled from "styled-components";
-import CurrencyInput from "react-currency-masked-input";
+import IntlCurrencyInput from "react-intl-currency-input";
 
 import FormsStyle from "../common/FormsStyle";
 import Header from "../common/Header";
 import Button from "../common/Button";
-import TokenContext from "../contexts/TokenContext";
 import { insertNewTransaction } from "../services/MyWalletAPI";
 
 export default function AddRecord({ type }) {
   const navigate = useNavigate();
-  const { token } = useContext(TokenContext);
   const [isDisable, setIsDisable] = useState(false);
   const [inputData, setInputData] = useState({
     date: dayjs(new Date()).format("DD/MM"),
@@ -21,6 +19,31 @@ export default function AddRecord({ type }) {
     type,
   });
 
+  useEffect(() => {
+    if (localStorage.getItem("UserToken") === null) {
+      alert("Sessão expirada, por favor faça login novamente");
+      navigate("/");
+    }
+  }, []);
+  const currencyConfig = {
+    locale: "pt-BR",
+    formats: {
+      number: {
+        BRL: {
+          style: "currency",
+          currency: "BRL",
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        },
+      },
+    },
+  };
+
+  function handleAmount(e, value, maskedValue) {
+    e.preventDefault();
+    setInputData({ ...inputData, amount: value.toFixed(2) });
+  }
+
   function handleForm(e) {
     setInputData({ ...inputData, [e.target.name]: e.target.value });
   }
@@ -28,11 +51,9 @@ export default function AddRecord({ type }) {
   async function sendStatement(e) {
     e.preventDefault();
     setIsDisable(true);
-
+    const token = JSON.parse(localStorage.getItem("UserToken"));
     try {
-      const response = await insertNewTransaction({ inputData, token });
-
-      console.log(response.data);
+      await insertNewTransaction({ inputData, token });
 
       navigate("/home");
     } catch (error) {
@@ -45,16 +66,14 @@ export default function AddRecord({ type }) {
     <Wrapper>
       <Header>{type === "deposit" ? "Nova entrada" : "Nova saída"}</Header>
       <FormsStyle isDisable={isDisable} onSubmit={sendStatement}>
-        <CurrencyInput
+        <IntlCurrencyInput
           required
-          type="number"
-          name="amount"
-          step="0.01"
-          min="0.01"
-          max="999999.99"
-          placeholder="Valor"
+          currency="BRL"
+          config={currencyConfig}
           disabled={isDisable}
-          onChange={handleForm}
+          onChange={handleAmount}
+          value={parseFloat(inputData.amount)}
+          max={parseFloat("999999.99")}
         />
         <input
           required
@@ -64,10 +83,17 @@ export default function AddRecord({ type }) {
           disabled={isDisable}
           onChange={handleForm}
         />
-        <Button>
+        <Button type="submit">
           {type === "deposit" ? "Salvar entrada" : "Salvar saída"}{" "}
         </Button>
       </FormsStyle>
+      <Cancel
+        onClick={() => {
+          navigate("/home");
+        }}
+      >
+        <Button>Cancelar</Button>
+      </Cancel>
     </Wrapper>
   );
 }
@@ -82,4 +108,10 @@ const Wrapper = styled.div`
     position: relative;
     top: 12%;
   }
+`;
+
+const Cancel = styled.div`
+  width: 85%;
+  position: relative;
+  top: 11%;
 `;

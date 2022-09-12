@@ -39,8 +39,9 @@ export default function Login() {
     try {
       const response = await openClientSession(inputData);
 
-      setToken(response.data);
-
+      localStorage.setItem("UserToken", JSON.stringify(response.data));
+      const userToken = JSON.parse(localStorage.getItem("UserToken"));
+      setToken(userToken);
       navigate("/home");
     } catch (error) {
       setIsDisable(false);
