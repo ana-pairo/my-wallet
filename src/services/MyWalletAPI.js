@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = " https://my-wallet-backend.herokuapp.com";
+const BASE_URL = "https://my-wallet-backend.herokuapp.com";
 
 function createClient(body) {
   const promise = axios.post(`${BASE_URL}/clients`, body);
