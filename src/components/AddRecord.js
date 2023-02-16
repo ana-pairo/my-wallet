@@ -87,20 +87,21 @@ export default function AddRecord({ type }) {
         <Button type="submit">
           {type === "deposit" ? "Salvar entrada" : "Salvar saída"}{" "}
         </Button>
-        <Cancel
-          onClick={() => {
-            navigate("/home");
-          }}
-        >
-          <Button>Cancelar</Button>
-        </Cancel>
       </FormsStyle>
+      <Cancel
+        onClick={() => {
+          navigate("/home");
+        }}
+      >
+        <Button>Cancelar</Button>
+      </Cancel>
     </Wrapper>
   );
 }
 const Wrapper = styled.div`
   font-family: "Raleway", sans-serif;
   height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
