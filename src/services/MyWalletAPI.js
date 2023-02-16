@@ -3,7 +3,7 @@ import axios from "axios";
 const BASE_URL = "https://my-wallet-backend.herokuapp.com";
 
 function createClient(body) {
-  const promise = axios.post(`${BASE_URL}/clients`, body);
+  const promise = axios.post(`${BASE_URL}/users`, body);
 
   return promise;
 }
@@ -15,7 +15,7 @@ function getUserData(token) {
     },
   };
 
-  const promise = axios.get(`${BASE_URL}/clients`, config);
+  const promise = axios.get(`${BASE_URL}/users`, config);
   return promise;
 }
 
