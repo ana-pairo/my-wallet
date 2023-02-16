@@ -72,7 +72,7 @@ export default function Register() {
       } catch (error) {
         setIsDisable(false);
         console.log(error);
-        alert(error.response.data);
+        alert(error.response.data.details[0]);
       }
     }
   }

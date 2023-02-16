@@ -22,19 +22,21 @@ export default function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("UserToken") === null) {
+    if (JSON.parse(localStorage.getItem("UserToken")) === null) {
       alert("Sessão expirada, por favor faça login novamente");
       navigate("/");
     } else {
-      getUserData(JSON.parse(localStorage.getItem("UserToken")))
+      const token = JSON.parse(localStorage.getItem("UserToken"));
+
+      getUserData(token)
         .then((res) => {
-          setUser(res.data);
+          setUser({ ...res.data });
         })
         .catch((err) => console.log(err));
 
-      getClientStatments(JSON.parse(localStorage.getItem("UserToken")))
+      getClientStatments(token)
         .then((response) => {
-          setBankStatements(response.data);
+          setBankStatements([...response.data]);
         })
         .catch((error) => console.log(error));
     }
@@ -43,9 +45,7 @@ export default function Home() {
   async function logOut() {
     if (window.confirm("Deseja realmente encerrar sua sessão?")) {
       try {
-        const response = await deleteSession(
-          JSON.parse(localStorage.getItem("UserToken"))
-        );
+        await deleteSession(JSON.parse(localStorage.getItem("UserToken")));
 
         localStorage.removeItem("UserToken");
 
@@ -58,7 +58,7 @@ export default function Home() {
 
   return (
     <Wrapper>
-      {user.length === 0 ? (
+      {user === null ? (
         <ThreeCircles
           height="150"
           width="150"
@@ -74,7 +74,7 @@ export default function Home() {
       ) : (
         <>
           <Header>
-            <div>Olá, {user}</div>
+            <div>Olá, {user.name}</div>
             <RiLogoutBoxRLine size="30px" onClick={logOut} />
           </Header>
           <Records>
@@ -82,19 +82,18 @@ export default function Home() {
               <>
                 <Statements>
                   {bankStatements.map((statement, index) => {
-                    if (statement.type === "deposit") {
-                      balance += parseFloat(statement.amount);
+                    const { type, amount, date, description } = statement;
+                    if (type === "deposit") {
+                      balance += parseFloat(amount);
                     } else {
-                      balance -= parseFloat(statement.amount);
+                      balance -= parseFloat(amount);
                     }
 
                     return (
                       <Statment key={index}>
-                        <Date>{statement.date}</Date>
-                        <Description>{statement.description}</Description>
-                        <Price type={statement.type}>
-                          {statement.amount.replace(".", ",")}
-                        </Price>
+                        <Date>{date}</Date>
+                        <Description>{description}</Description>
+                        <Price type={type}>{amount.toString()}</Price>
                       </Statment>
                     );
                   })}

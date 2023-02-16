@@ -39,7 +39,8 @@ export default function Login() {
       navigate("/home");
     } catch (error) {
       setIsDisable(false);
-      alert(error.response.data);
+      console.log(error);
+      alert(error.response.data.details[0]);
     }
   }
 

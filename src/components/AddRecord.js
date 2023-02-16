@@ -15,7 +15,7 @@ export default function AddRecord({ type }) {
   const [inputData, setInputData] = useState({
     date: dayjs(new Date()).format("DD/MM"),
     description: "",
-    amount: "",
+    amount: "0.00",
     type,
   });
 
@@ -52,13 +52,14 @@ export default function AddRecord({ type }) {
     e.preventDefault();
     setIsDisable(true);
     const token = JSON.parse(localStorage.getItem("UserToken"));
+
     try {
       await insertNewTransaction({ inputData, token });
 
       navigate("/home");
     } catch (error) {
       setIsDisable(false);
-      alert(error.response.data);
+      alert(error.response.data.details[0]);
     }
   }
 
