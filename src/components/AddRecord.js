@@ -87,14 +87,14 @@ export default function AddRecord({ type }) {
         <Button type="submit">
           {type === "deposit" ? "Salvar entrada" : "Salvar saída"}{" "}
         </Button>
+        <Cancel
+          onClick={() => {
+            navigate("/home");
+          }}
+        >
+          <Button>Cancelar</Button>
+        </Cancel>
       </FormsStyle>
-      <Cancel
-        onClick={() => {
-          navigate("/home");
-        }}
-      >
-        <Button>Cancelar</Button>
-      </Cancel>
     </Wrapper>
   );
 }
