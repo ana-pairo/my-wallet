@@ -114,6 +114,7 @@ const Wrapper = styled.div`
 
 const Cancel = styled.div`
   width: 85%;
+  max-width: 600px;
   position: relative;
   top: 11%;
 `;
