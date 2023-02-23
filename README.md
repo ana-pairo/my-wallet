@@ -1,6 +1,6 @@
 <h1 align="center">My Wallet</h1>
 
-Welcome to my-wallet! This is the front-end repository of a web app that helps users to control their expenses and earnings. As a financial manager the app allows users to input their financial transactions and get an overview of their finances.
+My Wallet is a web app that helps users to control their expenses and earnings. As a financial manager the app allows users to input their financial transactions and get an overview of their finances.
 
 ## Features
 
