@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+<h1 align="center">My Wallet</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to my-wallet! This is the front-end repository of a web app that helps users to control their expenses and earnings. As a financial manager the app allows users to input their financial transactions and get an overview of their finances.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Sign Up
+- Login
+- List all financial events for a user
+- Add expense
+- Add revenue
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project was built using the following technologies:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- React
+- Styled Components
+- Axios
 
-### `npm test`
+## UI Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To see the UI features of this app, please check out this video:
 
-### `npm run build`
+https://user-images.githubusercontent.com/106849212/221018793-c5a69601-f07d-448d-9442-afd196f55fbf.mp4
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br/>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Try it out now at https://mywalletcontrol.vercel.app/
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## How to run locally
 
-### `npm run eject`
+To get started, follow these steps:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Clone this repository to your local machine.
+2. Install the project dependencies by running `npm install`.
+3. Start the app by running `npm start`.
+4. The app will be available at `http://localhost:3000`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Note: If you want to run the my-wallet-server locally, before starting the app, you must clone the [my-wallet-server](https://github.com/ana-pairo/my-wallet-server) repository and follow the instructions to run it. Then, change the BASE_URL on `/src/services/MyWalletAPI.js`.
