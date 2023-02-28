@@ -26,7 +26,7 @@ https://user-images.githubusercontent.com/106849212/221018793-c5a69601-f07d-448d
 
 <br/>
 
-Try it out now at https://mywalletcontrol.vercel.app/
+Try it out now at [https://mywalletcontrol.vercel.app/](https://mywalletcontrol.vercel.app/)
 
 ## How to run locally
 
