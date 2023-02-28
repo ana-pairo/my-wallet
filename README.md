@@ -22,7 +22,12 @@ This project was built using the following technologies:
 
 To see the UI features of this app, please check out this video:
 
+<div align="center">
+  
 https://user-images.githubusercontent.com/106849212/221018793-c5a69601-f07d-448d-9442-afd196f55fbf.mp4
+  
+</div>
+
 
 <br/>
 
